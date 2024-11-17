@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1</title>
+    <style>
+      ul {
+          list-style-type: none;
+          padding: 0;
+      }
+      li {
+          display: inline-block;
+          margin: 10px;
+          text-align: center;
+      }
+      figure {
+          margin: 0;
+      }
+  </style>
+
+    <h2>Overview of Project</h2>
+
+    <h4> Project Inspiration : https://ieeexplore.ieee.org/document/9024543 </h4>
+    <p>
+      Millimeter-wave (mmWave) small cell networks play an important role in 5G wireless communication systems. 
+      By densely deploying a large number of mmWave small cell base stations (SBSs), thousands of connections 
+      and high transmission rates are supported to provide a variety of local services [1], [2]. 
+      The SBS provides short-range communications to mobile terminals (MTs) to reduce the propagation loss of 
+      signal transmission [3]. With the help of mmWave, multiple SBSs can utilize a large number of antennas 
+      to form directional analog beams to MTs and provide concurrent transmissions simultaneously. However, 
+      as the number of SBSs and MTs increases, it becomes increasingly difficult to use traditional signal 
+      processing methods to improve performance.
+    </p>
+
+    <p>
+      For our project, we attempt to utilize machine learning (ML) to show a novel ML based method for concurrent tranmission in mmWave small cell networks.
+    </p>
+
+    <p> In the original paper, the authors follow a 3-step process</p>
+    <ul>
+      <li>
+          <strong>1. Random Distribution Modeling:</strong> 
+          The large random distribution of SBSs is modeled by a heterogeneous Poisson point process (HPPP), 
+          where the average sum rate (ASR) of MT under concurrent transmission can be obtained.
+      </li>
+      <li>
+          <strong>2. Machine Learning for Beam Selection:</strong> 
+          Downlink SBS conditions are established as a large database for machine learning training. An iterative 
+          support vector machine (SVM) classifier is proposed for analog beam selection of each SBS.
+      </li>
+      <li>
+          <strong>3. Iterative SMO Algorithm:</strong> 
+          An iterative sequential minimal optimization (SMO) training algorithm is proposed, enabling SBSs to perform 
+          highly efficient and low-complexity analog beam selection during concurrent transmissions.
+      </li>
+  </ul>
+
+</head>
+</html>
