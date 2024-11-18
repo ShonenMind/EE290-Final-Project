@@ -19,7 +19,9 @@
         }
         .toc {
             list-style-type: decimal;
-            padding-left: 20px;
+            padding-left: 1; /* Removes unnecessary padding */
+            margin-left: 0; /* Ensures alignment to the left */
+            text-align: left; /* Aligns the text */
         }
         .toc a {
             text-decoration: none;
@@ -55,6 +57,12 @@
         .equation {
             margin: 10px 0;
         }
+        .title {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
     </style>
 
     <!-- MathJax -->
@@ -68,17 +76,25 @@
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head>
+
+
+
+
+
 <body>
-    <h1>Table of Contents</h1>
+    <div class="title">EE290 Final Project</div>
+    <h3 style="font-weight: normal; font-size: 1.5em;">Table of Contents</h3>
     <ul class="toc">
         <li><a href="#overview">Overview of Project</a></li>
         <li><a href="#data-generation">Data Generation</a></li>
+        <li><a href="#SVM">Why not use a normal SVM?</a></li>
         <li><a href="#NN">Naive NN</a></li>
     </ul>
 
-    <h2 id="overview">Overview of Project</h2>
-
     <h4>Project Inspiration: <a href="https://ieeexplore.ieee.org/document/9024543" target="_blank">https://ieeexplore.ieee.org/document/9024543</a></h4>
+
+    <h4 style="text-align: center">Abstract</h4>
+
     <p>
         Millimeter-wave (mmWave) small cell networks play an important role in 5G wireless communication systems. 
         By densely deploying a large number of mmWave small cell base stations (SBSs), thousands of connections 
@@ -162,8 +178,21 @@
     <p> Problem is... we don't have access to this data, and most papers on beamforming do not share their data.
       As a result, we had to implement our own data generation script that follows the paper's implementaiton.
 
-      This meant curating a large dataset that followed a HPPP.
+      This meant curating a large dataset that followed a HPPP. Here are the system parameters that stay constant:
+
+      <ul>
+        <li>$\lambda_S = 1 \cdot 10^{-4}m^{-2}$: The density of our homogenous Poisson point process.</li>
+        <li>$P_S = 20$ dBm: The maximum SPS power.</li>
+        <li>$L = 2$: The number of propagation paths.</li>
+        <li>$N_{MT} = 2$: The number of MT antennas.</li>
+        <li>$N_{SBS} = 32$: The nmuber of SBS antennas.</li>
+        <li>$R = 100$m: The maximum MT communication radius.</li>
+        <li>$N_C = 9$: The number of candidate vectors.</li>
+
+      </ul>
     </p>
+
+    In addition to that, 
 
     <p> </p>
     <body>
@@ -242,9 +271,13 @@
 
   <p>Therefore, by using a <b>data-driven iterative SVM classifier</b>, we can better address the issue of imbalanced data and ensure better prediction accuracy for analog beam selection.</p> Specifically, we can perform resampling/reweighting with our samples deploy a more iterative process with each learning step to improve refinement.
 
-  <h2 id="NN">Naive NN</h2>
+  <h2 id="SMV Classifier">Data-Driven Iterative SVM classifier</h2>
 
-  <p> Firstly, we implement a Naive NN to train the data.</p>
+  <p> We make use of the <a href="https://en.wikipedia.org/wiki/Sequential_minimal_optimization" target="_blank">Sequential Minimal Optimization algorithm</a>, which solves the <a href="https://en.wikipedia.org/wiki/Quadratic_programming" target="_blank">quadratic programming</a> problem that comes up when training SVM's.</p>
+
+  <p>We first choose a subset of two candidate vectors from our set of $N_C$ candidate vectors, and use these two vectors to classify our training samples into two groups.</p>
+
+  <p>After each classification, one vector from our chosen two vectors is replaced by a new candidate vector not choosed before, and we repeat this process. In fact, this process will continue for $N_C - 1$ iterations (because by then each of our $N_C$ candidate vectors would have been chosen), making use of the SMO algorithm to train our SVM at each iteration.</p>
 
 
 </html>
