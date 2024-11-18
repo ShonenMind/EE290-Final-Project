@@ -368,5 +368,123 @@
 
   <p>After each classification, one vector from our chosen two vectors is replaced by a new candidate vector not choosed before, and we repeat this process. In fact, this process will continue for $N_C - 1$ iterations (because by then each of our $N_C$ candidate vectors would have been chosen), making use of the SMO algorithm to train our SVM at each iteration.</p>
 
+  <h2> Naive NN </h2>
+
+  <p>
+    The <strong>MmWaveNN</strong> is a fully connected feedforward neural network designed for beam selection in mmWave communication systems. 
+    It uses a series of linear layers, activation functions, and dropout to prevent overfitting and enhance generalization.
+</p>
+
+<ul>
+    <li><strong>Input Layer:</strong> Accepts input features of size <code>input_size</code>.</li>
+    <li><strong>Hidden Layer 1:</strong> 
+        <ul>
+            <li>Linear transformation to <code>hidden_size</code> dimensions.</li>
+            <li>Applies ReLU activation.</li>
+            <li>Dropout with probability 0.3.</li>
+        </ul>
+    </li>
+    <li><strong>Hidden Layer 2:</strong> 
+        <ul>
+            <li>Linear transformation to <code>hidden_size // 2</code> dimensions.</li>
+            <li>Applies ReLU activation.</li>
+            <li>Dropout with probability 0.3.</li>
+        </ul>
+    </li>
+    <li><strong>Output Layer:</strong> Linear transformation to <code>num_classes</code> dimensions, corresponding to the number of beamforming classes.</li>
+</ul>
+
+<h3>Training Process</h3>
+
+<p>
+    The model is trained using the following process:
+</p>
+<ul>
+    <li>Uses the <strong>CrossEntropyLoss</strong> as the loss function to handle multi-class classification tasks.</li>
+    <li>The <strong>Adam Optimizer</strong> adjusts weights to minimize the loss function.</li>
+    <li>During each epoch:
+        <ul>
+            <li>The model processes input data in batches from <code>train_loader</code>.</li>
+            <li>Loss is computed, backpropagated, and the optimizer updates weights accordingly.</li>
+            <li>Model accuracy and loss are tracked per batch.</li>
+        </ul>
+    </li>
+</ul>
+
+<p> Overall, a very Naive NN with some basic features. </p>
+
+<h2> Advanced NN </h2>
+
+<p>
+    The <strong>AdvancedMmWaveNN</strong> is a sophisticated neural network model designed for beam selection in mmWave communication systems. 
+    It combines feature extraction, attention mechanisms, and residual learning to improve classification performance.
+</p>
+
+<h3>Model Components</h3>
+<ul>
+    <li><strong>Initial Feature Extraction:</strong> 
+        <ul>
+            <li>Transforms the input data to a higher-dimensional space using a linear layer.</li>
+            <li>Batch normalization, ReLU activation, and dropout (p=0.2) are applied to stabilize and regularize the model.</li>
+        </ul>
+    </li>
+    <li><strong>Parallel Branches:</strong>
+        <ul>
+            <li><strong>Spatial Branch:</strong> Extracts spatial features using a sub-network.</li>
+            <li><strong>Channel Branch:</strong> Extracts channel-wise features using another sub-network.</li>
+            <li>Both branches employ linear layers, batch normalization, ReLU activation, and dropout.</li>
+        </ul>
+    </li>
+    <li><strong>Attention Mechanisms:</strong>
+        <ul>
+            <li><strong>Spatial Attention:</strong> Computes attention weights for spatial features.</li>
+            <li><strong>Channel Attention:</strong> Computes attention weights for channel features.</li>
+        </ul>
+    </li>
+    <li><strong>Residual Blocks:</strong> 
+        <ul>
+            <li>Uses 3 residual blocks to refine the combined features.</li>
+            <li>Each block contains two linear layers, batch normalization, ReLU activation, and a shortcut connection to preserve feature information.</li>
+        </ul>
+    </li>
+    <li><strong>Classifier:</strong>
+        <ul>
+            <li>Processes the refined features through multiple linear layers with batch normalization, ReLU activation, and dropout.</li>
+            <li>Outputs the final predictions across <code>num_classes</code>.</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Training Process</h3>
+<p>The training procedure includes:</p>
+<ul>
+    <li><strong>Loss Function:</strong> Uses <code>CrossEntropyLoss</code> for multi-class classification.</li>
+    <li><strong>Optimizer:</strong> Typically employs <code>Adam</code> to optimize weights.</li>
+    <li><strong>Gradient Clipping:</strong> Gradients are clipped to a maximum norm of 1.0 to prevent exploding gradients.</li>
+    <li><strong>Training Loop:</strong>
+        <ul>
+            <li>Processes input data in batches from <code>train_loader</code>.</li>
+            <li>Computes the loss, performs backpropagation, and updates weights.</li>
+            <li>Tracks running loss and classification accuracy for each epoch.</li>
+        </ul>
+    </li>
+</ul>
+
+  <h2>Training History</h2>
+  <p>Below are the training histories for different NN complexities:</p>
+  
+  <div style="text-align: center;">
+      <figure>
+          <img src="./NN_code/training_history.png" alt="Training History" style="max-width: 100%; height: auto;">
+          <figcaption>Figure 1: Training History for the Naive NN (Best Acc: 90.47%)</figcaption>
+      </figure>
+
+  
+      <figure>
+          <img src="./NN_code/training_history_advanced.png" alt="Advanced Training History" style="max-width: 100%; height: auto;">
+          <figcaption>Figure 2: Training History for the Advanced NN (Best Acc: 90.89%)</figcaption>
+      </figure>
+  </div>
+  
 
 </html>
