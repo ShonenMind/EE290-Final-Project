@@ -185,7 +185,7 @@
         <li>$P_S = 20$ dBm: The maximum SPS power.</li>
         <li>$L = 2$: The number of propagation paths.</li>
         <li>$N_{MT} = 2$: The number of MT antennas.</li>
-        <li>$N_{SBS} = 32$: The nmuber of SBS antennas.</li>
+        <li>$N_{SBS} = 32$: The number of SBS antennas.</li>
         <li>$R = 100$m: The maximum MT communication radius.</li>
         <li>$N_C = 9$: The number of candidate vectors.</li>
         <li>$f = 28$ GHz: Carrier frequency</li>
@@ -196,7 +196,20 @@
       </ul>
     </p>
 
-    <p> </p>
+    In addition to that, we can now derive that the average number of SBS's in a circular area around our MT is 
+
+    <p style="text-align: center">$N_{\mathrm{S}}=\lfloor\lambda_{\mathrm{S}}\pi R^{2}\rfloor$</p>
+
+    Furthermore, if we define the data stream from the $k$th SBS to our MT as $d_{S, k}$, where $1 \leq k \leq N_S$, and the transmit power of our SBS as $P_{S, k}$, then our downlink signal of our SBS can be derived as 
+
+    <p style="text-align: center">$s_{\mathrm{S}\mathrm{B}\mathrm{S},k} = c_{S, k}d_{S, k}, \text{where } c_{S, k} \in \mathbb{C}^{N_{\mathrm{S}\mathrm{B}\mathrm{S}}\times 1}$</p>
+
+    <p> where $c_{S, k}$ is the $k$th SBS's analog beam (which directly points to the MT through the use of phase shifters). Our channel propagation for the $k$th SBS is actually based on the <a href="https://telcomatraining.com/what-is-sv-saleh-valenzuela/" target="_blank">Saleh-Valenzudela model</a>, a narrow band clustered channel model:</p>
+
+    <p style="text-align: center">$\mathrm{H}_{\mathrm{S},k}=\gamma\sum_{l=1}^{L}\alpha_{\mathrm{S},k,l}\mathrm{a}_{\mathrm{M}\mathrm{T}}(\phi_{\mathrm{M}\mathrm{T},k,l})[\mathrm{a}_{\mathrm{S},k}(\emptyset \mathrm{s},k,l)]^{H}$</p>
+
+    <p>where $\gamma = \sqrt{\frac{N_{SBS}N_{MT}}{L}}$, and $\alpha_{\mathrm{M}\mathrm{T}}$ is the complex gain from the $l$th path.</p>
+
     <body>
         <div class="algorithm">
             <div class="algorithm-title">Algorithm 1: mmWave Dataset Generation with Beam Selection</div>
