@@ -135,7 +135,7 @@
         on average.
     </p>
 
-    <h4 style="text-decoration: underline;">For our project, we want to compare a naive Neural Network (NN) implementation, the paper's SMO algorithm, and our own Reinforced Learning (RL) approach.</h4>
+    <h4 style="text-decoration: underline;">For our project, we want to compare a naive Neural Network (NN) implementation, the paper's SMO algorithm, and a more complex NN implementation.</h4>
 
     <h2> Terminology </h2>
     
@@ -188,65 +188,76 @@
         <li>$N_{SBS} = 32$: The nmuber of SBS antennas.</li>
         <li>$R = 100$m: The maximum MT communication radius.</li>
         <li>$N_C = 9$: The number of candidate vectors.</li>
+        <li>$f = 28$ GHz: Carrier frequency</li>
+        <li>$λ = c/f$: Wavelength</li>
+        <li>$k = 2π/λ$: Wave number</li>
+        <li>$D_MT = D_SBS = λ/2$: Antenna spacing</li>
 
       </ul>
     </p>
 
-    In addition to that, 
-
     <p> </p>
     <body>
-      <div class="algorithm">
-          <div class="algorithm-title">Algorithm 1: mmWave Channel Model</div>
-          
-          <div class="keyword">Constants:</div>
-          <div class="algorithm-block">
-              λ_S: SBS density in R² plane<br>
-              R: Maximum communication radius<br>
-              N_SBS: Number of SBS antennas<br>
-              N_MT: Number of MT antennas<br>
-              L: Number of propagation paths<br>
-              N_C: Number of candidate vectors in codebook (N_C > 2)<br>
-              P_S: Transmit power of SBS<br>
-              D_MT, D_S: Antenna spacing at MT and SBS (λ/2)<br>
-              σ = 2π/λ: Wave number
-          </div>
-  
-          <div class="keyword">Procedure:</div>
-          <div class="algorithm-block">
-              1. Calculate number of SBS:<br>
-              <div class="equation">N_S = ⌊λ_S π R²⌋</div>
-              
-              2. Generate data streams d_S,k ∈ C for k = 1,...,N_S<br>
-              
-              3. For each SBS k, select beam c_S,k from codebook:<br>
-              <div class="equation">s_SBS,k = c_S,k d_S,k, (c_S,k ∈ C^(N_SBS×1))</div>
-              
-              4. Generate channel matrices H_S,k:<br>
-              <div class="equation">H_S,k = γ ∑(l=1 to L) α_S,k,l a_MT(φ_MT,k,l)[a_S,k(φ_S,k,l)]^H</div>
-              where:
-              <div class="algorithm-block">
-                  γ = √(N_SBS N_MT / L)<br>
-                  α_S,k,l ∼ CN(0,1)<br>
-                  Array steering vectors:<br>
-                  <div class="equation">a_MT(φ_MT,k,l) = [1, e^(jσD_MT sin(φ_MT,k,l)), ..., e^(jσD_MT(N_MT-1)sin(φ_MT,k,l))]^T/√N_MT</div>
-                  <div class="equation">a_S(φ_S,k,l) = [1, e^(jσD_S sin(φ_S,k,l)), ..., e^(jσD_S(N_SBS-1)sin(φ_S,k,l))]^T/√N_SBS</div>
-              </div>
-              
-              5. Generate receive phase vector:<br>
-              <div class="equation">g_MT = [e^(jθ₁), ..., e^(jθ_N_MT)] ∈ C^(1×N_MT)</div>
-              
-              6. Calculate received signal:<br>
-              <div class="equation">y_MT = g_MT ∑(k=1 to N_S) H_S,k c_S,k d_S,k + g_MT n</div>
-              
-              7. Define channel matrix G:<br>
-              <div class="equation">G = g_MT[H_S,1c_S,1 ⋯ H_S,N_Sc_S,N_S]</div>
-              
-              8. Apply Zero-Forcing equalization:<br>
-              <div class="equation">y_MT,ZF = [d_S,1, ⋯, d_S,N_S]^T + (G^H G)^(-1) G^H g_MT n</div>
-          </div>
-      </div>
-  </body>
+        <div class="algorithm">
+            <div class="algorithm-title">Algorithm 1: mmWave Dataset Generation with Beam Selection</div>
+            <div class="algorithm-block">
+                1. Calculate number of SBS:<br>
+                <div class="equation">N_S = ⌊λ_S π R²⌋</div>
+                
+                2. Generate DFT-based codebook C ∈ ℂ^(N_SBS × N_C):<br>
+                <div class="algorithm-block">
+                    For i = 0 to N_C - 1:<br>
+                    <div class="equation">θᵢ = -π/2 + (i · π)/N_C</div>
+                    <div class="equation">cᵢ = [1, e^(jkD_SBS sin(θᵢ)), ..., e^(jkD_SBS(N_SBS-1)sin(θᵢ))]^T/√N_SBS</div>
+                </div>
+                
+                3. Generate channel matrix H for each sample:<br>
+                <div class="algorithm-block">
+                    For each path l = 1 to L:<br>
+                    <div class="equation">φ_AOA,l ~ U(-π/2, π/2)  // Angle of Arrival</div>
+                    <div class="equation">φ_AOD,l ~ U(-π/2, π/2)  // Angle of Departure</div>
+                    <div class="equation">α_l ~ CN(0, 1/√2)       // Complex path gain</div>
+                    <div class="equation">a_MT,l = [1, e^(jkD_MT sin(φ_AOA,l)), ..., e^(jkD_MT(N_MT-1)sin(φ_AOA,l))]^T/√N_MT</div>
+                    <div class="equation">a_SBS,l = [1, e^(jkD_SBS sin(φ_AOD,l)), ..., e^(jkD_SBS(N_SBS-1)sin(φ_AOD,l))]^T/√N_SBS</div>
+                </div>
+                
+                4. Construct complete channel matrix H:<br>
+                <div class="equation">γ = √(N_SBS · N_MT/L)</div>
+                <div class="equation">H = γ ∑(l=1 to L) α_l · a_MT,l · a_SBS,l^H</div>
+                
+                5. Calculate optimal beam index for each channel:<br>
+                <div class="algorithm-block">
+                    For each beam i in codebook:<br>
+                    <div class="equation">SNR_i = (P_S · ‖H · cᵢ‖²)/N₀</div>
+                    <div class="equation">optimal_beam = argmax_i(SNR_i)</div>
+                </div>
+                
+                6. Feature vector construction for each sample:<br>
+                <div class="equation">
+                    x = [ φ_AOA,1, ..., φ_AOA,L,           // AoA features<br>
+                         φ_AOD,1, ..., φ_AOD,L,           // AoD features<br>
+                         Re{α_1}, ..., Re{α_L},           // Real path gains<br>
+                         Im{α_1}, ..., Im{α_L},           // Imaginary path gains<br>
+                         vec(Re{H}), vec(Im{H}) ]         // Vectorized channel matrix
+                </div>
+            </div>
+    
+            <div class="keyword">Output:</div>
+            <div class="algorithm-block">
+                Features matrix X ∈ ℝ^(N_samples × N_features)<br>
+                Labels vector y ∈ ℤ^(N_samples), where yᵢ ∈ [0, N_C-1]
+            </div>
+    
+            <div class="keyword">Notes:</div>
+            <div class="algorithm-block">
+                1. The noise power N₀ is set to 10⁻¹³ W<br>
+                2. Channel matrix H ∈ ℂ^(N_MT × N_SBS)<br>
+                3. Each codebook vector cᵢ is normalized: ‖cᵢ‖² = 1<br>
+                4. Path gains α_l follow complex normal distribution<br>
+                5. Feature vector dimension: N_features = 2L + 2L + 2(N_MT · N_SBS)
+            </div>
+        </div>
+    </body>
 
   <h2 id="SVM">Why not use a normal SVM?</h2>
 
