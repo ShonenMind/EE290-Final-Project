@@ -1,21 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Insert project title here">
-    <title>INSERT PROJECT TITLE, EE290 Final Project</title>
+    <title>Project 1</title>
+    <style>
 
-    <!-- Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|IBM+Plex+Sans|Noto+Sans|Castoro" rel="stylesheet">
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/images/favicon.png">
+       .center-container {
+            text-align: center;
+        }
+
+        .github-button  {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: rgb(74, 114, 173);
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button.left {
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button.right {
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button:hover {
+            background-color: rgb(161, 31, 31);
+        }
+        ul {
+            display: table; 
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+        figure {
+            margin: 0;
+        }
+        .toc {
+            list-style-type: decimal;
+            padding-left: 1; /* Removes unnecessary padding */
+            margin-left: 0; /* Ensures alignment to the left */
+            text-align: left; /* Aligns the text */
+        }
+        .toc a {
+            text-decoration: none;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .algorithm {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .algorithm-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .algorithm-block {
+            margin-left: 20px;
+        }
+        .comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        .equation {
+            margin: 10px 0;
+        }
+        .title {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive; /* Fancy cursive font */
+            font-size: 3em;
+            color: #333;
+        }
+        .byline {
+            font-size: 1.2em;
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+    </style>
 
     <!-- MathJax -->
     <script>
@@ -27,35 +122,55 @@
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
-    <!-- JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <script src="./static/js/bulma-carousel.min.js"></script>
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script defer src="./static/js/index.js"></script>
 </head>
-    <h1>Table of Contents</h1>
+
+
+
+
+
+<body>
+    <div class="title">BEAMS</div>
+    <p class="byline">Beamforming and Enhanced Algorithms for MmWave Systems</p>
+    <p class="byline">EE290-010 Final Project by Aditya Tummala and Arjun Damerla, Professor Parekh</p>
+    <h3 style="font-weight: normal; font-size: 1.5em;">Table of Contents</h3>
     <ul class="toc">
         <li><a href="#overview">Overview of Project</a></li>
         <li><a href="#data-generation">Data Generation</a></li>
+        <li><a href="#SVM">Why not use a normal SVM?</a></li>
+        <li><a href="#NN">Naive NN</a></li>
+        <li><a href="#results">Training Results</a></li>
+        <li><a href="#final">Final Thoughts and Future Modifications</a></li>
     </ul>
 
-    <h2 id="overview">Overview of Project</h2>
+    &nbsp;
+
+    <div class="center-container">
+        <a href="https://github.com/ShonenMind/EE290-Final-Project" class="github-button left" target="_blank">
+            Click Here for GitHub
+        </a>
+    </div>
+
+    &nbsp;
+
+    <div class="center-container">
+        <a href="https://docs.google.com/presentation/d/1ubH-FBG0ocIo_t4kei2dvTSBeOPlsx90s2gPVIWXNe8/edit#slide=id.g317f763dc2b_0_55" class="github-button right" target="_blank">
+            Click Here for Slides
+        </a>
+    </div>
 
     <h4>Project Inspiration: <a href="https://ieeexplore.ieee.org/document/9024543" target="_blank">https://ieeexplore.ieee.org/document/9024543</a></h4>
+
+    <h4 style="text-align: center">Abstract</h4>
+
     <p>
         Millimeter-wave (mmWave) small cell networks play an important role in 5G wireless communication systems. 
         By densely deploying a large number of mmWave small cell base stations (SBSs), thousands of connections 
-        and high transmission rates are supported to provide a variety of local services [1], [2]. 
+        and high transmission rates are supported to provide a variety of local services. 
         The SBS provides short-range communications to mobile terminals (MTs) to reduce the propagation loss of 
-        signal transmission [3]. With the help of mmWave, multiple SBSs can utilize a large number of antennas 
+        signal transmission. With the help of mmWave, multiple SBSs can utilize a large number of antennas 
         to form directional analog beams to MTs and provide concurrent transmissions simultaneously. However, 
         as the number of SBSs and MTs increases, it becomes increasingly difficult to use traditional signal 
         processing methods to improve performance.
-    </p>
-
-    <p>
-        For our project, we attempt to utilize machine learning (ML) to show a novel ML-based method for concurrent transmission in mmWave small cell networks.
     </p>
 
     <p>In the original paper, the authors follow a 3-step process:</p>
@@ -83,7 +198,80 @@
         on average.
     </p>
 
-    <h4 style="text-decoration: underline;">For our project, we want to compare a naive Neural Network (NN) implementation, the paper's SMO algorithm, and our own Reinforced Learning (RL) approach.</h4>
+    <p> </p>
+
+    <h4>For our project, we attempt to utilize machine learning (ML) to show a novel ML-based method for concurrent transmission in mmWave small cell networks and compare various methods with one another.
+    </h4>
+
+    <h2> Terminology </h2>
+    
+    <ul>
+      <li>
+          <strong>1. CodeBook :</strong> 
+          <p>
+            A <strong>codebook</strong> in beamforming is a collection of predefined 
+            <strong>candidate beamforming vectors</strong>. Each vector represents a specific configuration 
+            of phase shifts across the antennas of the SBS. These configurations determine the direction 
+            and focus of the transmitted signal.
+        </p>
+        <h4>Mathematical Definition</h4>
+        <p>The codebook $C$ contains $N_C$ candidate vectors,
+        \(C = \{ c_{1}^S, c_{2}^S, \dots , c_{N_C}^S \} \), where <p style="text-align: center";>
+            \(c_i^S \in \mathbb{C}^{N_{SBS} \times 1} \text{ for } i = 1, 2, \dots , N_C\)
+
+        </p>
+        <ul>
+            <li>
+                Each $c_i^{S}$ is a normalized beamforming vector:
+                <p style="text-align: center";>
+                    $c_i^S = \frac{1}{\sqrt{N_{SBS}}} \cdot [e^{j\phi_1}, e^{j\phi_2}, \dots , e^{j\phi_{N_{SBS}}}]^\top$
+                </p>
+            </li>
+            $\phi_k$: Phase shift for the k-th antenna.</li> <br>
+            $N_{SBS}$: Number of antennas at the SBS.</li>
+        </ul>
+        <p>
+            Each vector in the codebook points the beam in a different direction, enabling the SBS to focus 
+            its transmission on specific targets (MTs).
+        </p>
+      </li>
+    
+        <li>
+            <strong>2. Average Sum Rate of Concurrent Transmissions: </strong>
+    
+        <div class="content">
+            <p>The MT can be simultaneously served by multiple mmWave SBSs with the SBS density λ<sub>S</sub>. Based on the statistical property of HPPP, the probability of SBS number in the <i>R</i> radius circular area satisfies:</p>
+    
+            <div class="equation">
+                \[ \mathrm{Pr}_{\mathrm{S}}(N_{\mathrm{S}}=\tau)=\frac{(\lambda_{\mathrm{S}}\pi R^{2})^{\tau}}{\tau!}e^{-\lambda_{\mathrm{S}}\pi R^{2}} (\tau=0,1,\ \ldots). \]
+            </div>
+    
+            <p>From the previous equation, the received noise power of MT satisfies:</p>
+    
+            <div class="equation">
+                \[ \mathrm{E}[(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}\mathrm{G}^{\mathrm{H}}g_{\mathrm{M}\mathrm{T}}n]=\delta^{2}N_{\mathrm{M}\mathrm{T}}(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1} \]
+            </div>
+    
+            <p>According to the expression of G, we can get:</p>
+    
+            <div class="equation">
+                \[ (\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}=\frac{1}{N_{\mathrm{M}^{\mathrm{r}}}}\begin{bmatrix}
+                {\left\|\mathrm{H}_{\mathrm{S}, 1} c_{\mathrm{S}, 1}\right\|^{2}}& {\cdots}& {0}\\
+                {\vdots}& {\ddots}& {\vdots}\\
+                {0}& {\cdots}& {\| \mathrm{H}_{\mathrm{S},N\mathrm{s}}c_{\mathrm{S},N_{\mathrm{S}}}\|^{2}}
+                \end{bmatrix}, \]
+            </div>
+    
+            <p>Consider the concurrent transmission of SBS, the ASR of MT is:</p>
+    
+            <div class="equation">
+                \[ R_{\mathrm{M}\mathrm{T}} = \lim_{\tau \rightarrow \infty} \sum_{k=1}^{\tau}\left[\frac{\left(\lambda_{\mathrm{S}} \pi R^{2}\right)^{\tau}}{\tau !} e^{-\lambda_{\mathrm{S}} \pi R^{2}}\right] \log_{2}\left(1+\frac{P_{\mathrm{S}, k}\left\|\mathrm{H}_{\mathrm{S}, k} c_{\mathrm{S}, k}\right\|^{2}}{N_{\mathrm{SBS}} \sigma^{2}}\right) \]
+            </div>
+    
+            <p>where SNR<sub>S,k</sub> = P<sub>S,k</sub>‖H<sub>S,k</sub>c<sub>S,k</sub>‖²/(N<sub>SBS</sub>σ²) is the MT signal to noise (SNR) of the concurrent transmission from all SBS.</p>
+        </div>
+    <p> In other words, given two SBSs and one MT, if we were to <strong>independently</strong> choose the beam that maximizes the SNR value, then we would maximize the average sum rate of concurrent transmissions.</p></li>
+  </ul>
 
     <h2 id="data-generation">Data Generation</h2>
 
@@ -92,58 +280,296 @@
     <p> Problem is... we don't have access to this data, and most papers on beamforming do not share their data.
       As a result, we had to implement our own data generation script that follows the paper's implementaiton.
 
-      This meant curating a large dataset that followed a HPPP.
+      This meant curating a large dataset that followed a HPPP. Here are the system parameters:
+
+      <ul>
+        <li>$\lambda_S = 1 \cdot 10^{-4}m^{-2}$: The density of our Heterogeneous Poisson point process.</li>
+        <li>$P_S = 20$ dBm: The maximum SPS power.</li>
+        <li>$L = 2$: The number of propagation paths.</li>
+        <li>$N_{MT} = 2$: The number of MT antennas.</li>
+        <li>$N_{SBS} = 32$: The number of SBS antennas.</li>
+        <li>$R = 100$m: The maximum MT communication radius.</li>
+        <li>$N_C = 9$: The number of candidate vectors.</li>
+        <li>$f = 28$ GHz: Carrier frequency</li>
+        <li>$λ = c/f$: Wavelength</li>
+        <li>$k = 2π/λ$: Wave number</li>
+        <li>$D_MT = D_SBS = λ/2$: Antenna spacing</li>
+
+      </ul>
     </p>
 
-    <p> </p>
-      <div class="algorithm">
-          <div class="algorithm-title">Algorithm 1: mmWave Channel Model</div>
-          
-          <div class="keyword">Constants:</div>
-          <div class="algorithm-block">
-              \(\lambda_S\): SBS density in \(\mathbb{R}^2 \) plane<br>
-              $R$: Maximum communication radius<br>
-              $N_{SBS}$: Number of SBS antennas<br>
-              $N_{MT}$: Number of MT antennas<br>
-              $L$: Number of propagation paths<br>
-              $N_C$: Number of candidate vectors in codebook, \(N_C > 2\)<br>
-              $P_S$: Transmit power of SBS<br>
-              $D_{MT}$, $D_S$: Antenna spacing at MT and SBS, \( \lambda/2 \)<br>
-              $\sigma = \frac{2\pi}{\lambda}$: Wave number
-          </div>
+    In addition to that, we can now derive that the average number of SBS's in a circular area around our MT is 
+
+    <p style="text-align: center">$N_{\mathrm{S}}=\lfloor\lambda_{\mathrm{S}}\pi R^{2}\rfloor$</p>
+
+    Furthermore, if we define the data stream from the $k$th SBS to our MT as $d_{S, k}$, where $1 \leq k \leq N_S$, and the transmit power of our SBS as $P_{S, k}$, then our downlink signal of our SBS can be derived as 
+
+    <p style="text-align: center">$s_{\mathrm{S}\mathrm{B}\mathrm{S},k} = c_{S, k}d_{S, k}, \text{where } c_{S, k} \in \mathbb{C}^{N_{\mathrm{S}\mathrm{B}\mathrm{S}}\times 1}$</p>
+
+    <p> where $c_{S, k}$ is the $k$th SBS's analog beam (which directly points to the MT through the use of phase shifters). Our channel propagation for the $k$th SBS is actually based on the <a href="https://telcomatraining.com/what-is-sv-saleh-valenzuela/" target="_blank">Saleh-Valenzuela model</a>, a narrow band clustered channel model:</p>
+
+    <p style="text-align: center">$\mathrm{H}_{\mathrm{S},k}=\gamma\sum_{l=1}^{L}\alpha_{\mathrm{S},k,l}\mathrm{a}_{\mathrm{M}\mathrm{T}}(\phi_{\mathrm{M}\mathrm{T},k,l})[\mathrm{a}_{\mathrm{S},k}(\emptyset \mathrm{s},k,l)]^{H}$</p>
+
+    <p>where $\gamma = \sqrt{\frac{N_{SBS}N_{MT}}{L}}$, and $\alpha_{\mathrm{M}\mathrm{T}}$ is the complex gain from the $l$th path.</p>
+
+    <body>
+        <div class="algorithm">
+            <div class="algorithm-title">Algorithm 1: mmWave Dataset Generation with Beam Selection</div>
+            <div class="algorithm-block">
+                1. Calculate number of SBS:
+                <div class="equation">
+                    $N_S = \lfloor\lambda_S \pi R^2\rfloor$
+                </div>
+                
+                2. Generate DFT-based codebook $\mathbf{C} \in \mathbb{C}^{N_{SBS} \times N_C}$:
+                <div class="algorithm-block">
+                    For $i = 0$ to $N_C - 1$:
+                    <div class="equation">
+                        $\theta_i = -\pi/2 + (i \cdot \pi)/N_C$
+                    </div>
+                    <div class="equation">
+                        $\mathbf{c}_i = [1, e^{jkD_{SBS}\sin(\theta_i)}, \ldots, e^{jkD_{SBS}(N_{SBS}-1)\sin(\theta_i)}]^T/\sqrt{N_{SBS}}$
+                    </div>
+                </div>
+                
+                3. Generate channel matrix H for each sample:
+                <div class="algorithm-block">
+                    For each path $l = 1$ to $L$:
+                    <div class="equation">
+                        $\phi_{AOA,l} \sim \mathcal{U}(-\pi/2, \pi/2)$ <span class="comment">// Angle of Arrival</span>
+                    </div>
+                    <div class="equation">
+                        $\phi_{AOD,l} \sim \mathcal{U}(-\pi/2, \pi/2)$ <span class="comment">// Angle of Departure</span>
+                    </div>
+                    <div class="equation">
+                        $\alpha_l \sim \mathcal{CN}(0, 1/\sqrt{2})$ <span class="comment">// Complex path gain</span>
+                    </div>
+                    <div class="equation">
+                        $\mathbf{a}_{MT,l} = [1, e^{jkD_{MT}\sin(\phi_{AOA,l})}, \ldots, e^{jkD_{MT}(N_{MT}-1)\sin(\phi_{AOA,l})}]^T/\sqrt{N_{MT}}$
+                    </div>
+                    <div class="equation">
+                        $\mathbf{a}_{SBS,l} = [1, e^{jkD_{SBS}\sin(\phi_{AOD,l})}, \ldots, e^{jkD_{SBS}(N_{SBS}-1)\sin(\phi_{AOD,l})}]^T/\sqrt{N_{SBS}}$
+                    </div>
+                </div>
+                
+                4. Construct complete channel matrix H:
+                <div class="equation">
+                    $\gamma = \sqrt{N_{SBS} \cdot N_{MT}/L}$
+                </div>
+                <div class="equation">
+                    $\mathbf{H} = \gamma \sum_{l=1}^L \alpha_l \cdot \mathbf{a}_{MT,l} \cdot \mathbf{a}_{SBS,l}^H$
+                </div>
+                
+                5. Calculate optimal beam index for each channel:
+                <div class="algorithm-block">
+                    For each beam $i$ in codebook:
+                    <div class="equation">
+                        $SNR_i = (P_S \cdot \|\mathbf{H} \cdot \mathbf{c}_i\|^2)/N_0$
+                    </div>
+                    <div class="equation">
+                        $optimal\_beam= argmax_i(SNR_i)$
+                    </div>
+                </div>
+                
+                6. Feature vector construction for each sample:
+                <div class="equation">
+                    $\mathbf{x} = [ \phi_{AOA,1}, \ldots, \phi_{AOA,L}, \quad$ // AoA features<br>
+                    $\quad\quad\;\; \phi_{AOD,1}, \ldots, \phi_{AOD,L}, \quad$ // AoD features<br>
+                    $\quad\quad\;\; \Re\{\alpha_1\}, \ldots, \Re\{\alpha_L\}, \quad$ // Real path gains<br>
+                    $\quad\quad\;\; \Im\{\alpha_1\}, \ldots, \Im\{\alpha_L\}, \quad$ // Imaginary path gains<br>
+                    $\quad\quad\;\; \vec(\Re\{\mathbf{H}\}), \vec(\Im\{\mathbf{H}\}) ]$ // Vectorized channel matrix
+                </div>
+            </div>
+    
+            <div class="keyword">Output:</div>
+            <div class="algorithm-block">
+                Features matrix $\mathbf{X} \in \mathbb{R}^{N_{samples} \times N_{features}}$<br>
+                Labels vector $\mathbf{y} \in \mathbb{Z}^{N_{samples}}$, where $y_i \in [0, N_C-1]$
+            </div>
+    
+            <div class="keyword">Notes:</div>
+            <div class="algorithm-block">
+                1. The noise power $N_0$ is set to $10^{-13}$ W<br>
+                2. Channel matrix $\mathbf{H} \in \mathbb{C}^{N_{MT} \times N_{SBS}}$<br>
+                3. Each codebook vector $\mathbf{c}_i$ is normalized: $\|\mathbf{c}_i\|^2 = 1$<br>
+                4. Path gains $\alpha_l$ follow complex normal distribution<br>
+                5. Feature vector dimension: $N_{features} = 2L + 2L + 2(N_{MT} \cdot N_{SBS})$
+            </div>
+        </div>
+    </body>
+
+
+
+
+  <h2 id="SVM">Why use SMOs?</h2>
+
+  <p> One of the main problems we face here is that small base stations are very <b> densely</b> deployed, and their placements are changing with every snapshot. </p>
+
+  <p>This leads us to create training samples that use multiple snapshots of SBSs with the same density, as it allows us to improve our variance in our samples.</p>
+
+  <p>Each training sample will contain the following, assuming we have $L$ propagation paths: </p>
+
+  <ul>
+    <li>Transmit power</li>
+    <li>Path loss</li>
+    <li>$2L$ <a href="https://en.wikipedia.org/wiki/Azimuth" target="_blank">azimuth angles</a>, one for the angle of arrival and one for the angle of departure for each path.</li>
+    <li>$2L$ real and imaginary parts for the <a href="https://en.wikipedia.org/wiki/Complex_gain" target="_blank">complex gain</a>.</li>
+  </ul>
+
+  <p>We normalize our samples in order to prevent any inconsistencies from differing range values. For instance, all angles will be between $0$ and $2\pi$, all power will be measured in dB, etc.</p>
+
+  <p>In total, every sample will be formatted as a vector of dimension $1 \times (4L + 2)$.</p>
+
+  <p>If we were to use a traditional SVM, then we'd end up using $N_C$ separate classifiers in order to find hyperplanes that can cleanly separate our data. However, our data can be <b>incredibly imbalanced</b> (such as some beams having much fewer samples than other beams), which can introduce heavy bias and inaccurate predictions.</p>
+
+  <p>Therefore, by using a <b>data-driven iterative SVM classifier</b>, we can better address the issue of imbalanced data and ensure better prediction accuracy for analog beam selection.</p> Specifically, we can perform resampling/reweighting with our samples to deploy a more iterative process with each learning step to improve refinement.
+
+  <h2 id="SMV Classifier">Data-Driven Iterative SVM classifier</h2>
+
+  <p> We make use of the <a href="https://en.wikipedia.org/wiki/Sequential_minimal_optimization" target="_blank">Sequential Minimal Optimization algorithm</a>, which solves the <a href="https://en.wikipedia.org/wiki/Quadratic_programming" target="_blank">quadratic programming</a> problem that comes up when training SVM's.</p>
+
+  <p>We first choose a subset of two candidate vectors from our set of $N_C$ candidate vectors, and use these two vectors to classify our training samples into two groups.</p>
+
+  <p>After each classification, one vector from our chosen two vectors is replaced by a new candidate vector not choosed before, and we repeat this process. In fact, this process will continue for $N_C - 1$ iterations (because by then each of our $N_C$ candidate vectors would have been chosen), making use of the SMO algorithm to train our SVM at each iteration.</p>
+
+  <h2> Naive NN </h2>
+
+  <p>
+    The <strong>MmWaveNN</strong> is a fully connected feedforward neural network designed for beam selection in mmWave communication systems. 
+    It uses a series of linear layers, activation functions, and dropout to prevent overfitting and enhance generalization.
+</p>
+
+<ul>
+    <li><strong>Input Layer:</strong> Accepts input features of size <code>input_size</code>.</li>
+    <li><strong>Hidden Layer 1:</strong> 
+        <ul>
+            <li>Linear transformation to <code>hidden_size</code> dimensions.</li>
+            <li>Applies ReLU activation.</li>
+            <li>Dropout with probability 0.3.</li>
+        </ul>
+    </li>
+    <li><strong>Hidden Layer 2:</strong> 
+        <ul>
+            <li>Linear transformation to <code>hidden_size // 2</code> dimensions.</li>
+            <li>Applies ReLU activation.</li>
+            <li>Dropout with probability 0.3.</li>
+        </ul>
+    </li>
+    <li><strong>Output Layer:</strong> Linear transformation to <code>num_classes</code> dimensions, corresponding to the number of beamforming classes.</li>
+</ul>
+
+<h3>Training Process</h3>
+
+<p>
+    The model is trained using the following process:
+</p>
+<ul>
+    <li>Uses the <strong>CrossEntropyLoss</strong> as the loss function to handle multi-class classification tasks.</li>
+    <li>The <strong>Adam Optimizer</strong> adjusts weights to minimize the loss function.</li>
+    <li>During each epoch:
+        <ul>
+            <li>The model processes input data in batches from <code>train_loader</code>.</li>
+            <li>Loss is computed, backpropagated, and the optimizer updates weights accordingly.</li>
+            <li>Model accuracy and loss are tracked per batch.</li>
+        </ul>
+    </li>
+</ul>
+
+<p> Overall, a very Naive NN with some basic features. </p>
+
+<h2> Advanced NN </h2>
+
+<p>
+    The <strong>AdvancedMmWaveNN</strong> is a more advanced neural network model designed for beam selection in mmWave communication systems. 
+    It combines feature extraction, attention mechanisms, and residual learning to improve classification performance.
+</p>
+
+<h3>Model Components</h3>
+<ul>
+    <li><strong>Initial Feature Extraction:</strong> 
+        <ul>
+            <li>Transforms the input data to a higher-dimensional space using a linear layer.</li>
+            <li>Batch normalization, ReLU activation, and dropout (p=0.2) are applied to stabilize and regularize the model.</li>
+        </ul>
+    </li>
+    <li><strong>Parallel Branches:</strong>
+        <ul>
+            <li><strong>Spatial Branch:</strong> Extracts spatial features using a sub-network.</li>
+            <li><strong>Channel Branch:</strong> Extracts channel-wise features using another sub-network.</li>
+            <li>Both branches employ linear layers, batch normalization, ReLU activation, and dropout.</li>
+        </ul>
+    </li>
+    <li><strong>Attention Mechanisms:</strong>
+        <ul>
+            <li><strong>Spatial Attention:</strong> Computes attention weights for spatial features.</li>
+            <li><strong>Channel Attention:</strong> Computes attention weights for channel features.</li>
+        </ul>
+    </li>
+    <li><strong>Residual Blocks:</strong> 
+        <ul>
+            <li>Uses 3 residual blocks to refine the combined features.</li>
+            <li>Each block contains two linear layers, batch normalization, ReLU activation, and a shortcut connection to preserve feature information.</li>
+        </ul>
+    </li>
+    <li><strong>Classifier:</strong>
+        <ul>
+            <li>Processes the refined features through multiple linear layers with batch normalization, ReLU activation, and dropout.</li>
+            <li>Outputs the final predictions across <code>num_classes</code>.</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Training Process</h3>
+<p>The training procedure includes:</p>
+<ul>
+    <li><strong>Loss Function:</strong> Uses <code>CrossEntropyLoss</code> for multi-class classification.</li>
+    <li><strong>Optimizer:</strong> Typically employs <code>Adam</code> to optimize weights.</li>
+    <li><strong>Gradient Clipping:</strong> Gradients are clipped to a maximum norm of 1.0 to prevent exploding gradients.</li>
+    <li><strong>Training Loop:</strong>
+        <ul>
+            <li>Processes input data in batches from <code>train_loader</code>.</li>
+            <li>Computes the loss, performs backpropagation, and updates weights.</li>
+            <li>Tracks running loss and classification accuracy for each epoch.</li>
+        </ul>
+    </li>
+</ul>
+
+  <h2 id="results"> Training Results</h2>
+  <p>Below are the training histories for the different NN complexities, the normal SVM classifier, and Data-Driven Iterative SVM classifier:</p>
   
-          <div class="keyword">Procedure:</div>
-          <div class="algorithm-block">
-              1. Calculate number of SBS:<br>
-              <div class="equation">$N_S = \lfloor \lambda_S \pi R^2 \rfloor$</div>
-              
-              2. Generate data streams $d_S,k \in \mathbb{C}$ for $k = 1, \dots ,N_S$<br>
-              
-              3. For each SBS $k$, select beam $c_S,k$ from codebook:<br>
-              <div class="equation">s_SBS,k = c_S,k d_S,k, (c_S,k ∈ C^(N_SBS×1))</div>
-              
-              4. Generate channel matrices H_S,k:<br>
-              <div class="equation">H_S,k = γ ∑(l=1 to L) α_S,k,l a_MT(φ_MT,k,l)[a_S,k(φ_S,k,l)]^H</div>
-              where:
-              <div class="algorithm-block">
-                  γ = √(N_SBS N_MT / L)<br>
-                  α_S,k,l ∼ CN(0,1)<br>
-                  Array steering vectors:<br>
-                  <div class="equation">a_MT(φ_MT,k,l) = [1, e^(jσD_MT sin(φ_MT,k,l)), ..., e^(jσD_MT(N_MT-1)sin(φ_MT,k,l))]^T/√N_MT</div>
-                  <div class="equation">a_S(φ_S,k,l) = [1, e^(jσD_S sin(φ_S,k,l)), ..., e^(jσD_S(N_SBS-1)sin(φ_S,k,l))]^T/√N_SBS</div>
-              </div>
-              
-              5. Generate receive phase vector:<br>
-              <div class="equation">g_MT = [e^(jθ₁), ..., e^(jθ_N_MT)] ∈ C^(1×N_MT)</div>
-              
-              6. Calculate received signal:<br>
-              <div class="equation">y_MT = g_MT ∑(k=1 to N_S) H_S,k c_S,k d_S,k + g_MT n</div>
-              
-              7. Define channel matrix G:<br>
-              <div class="equation">G = g_MT[H_S,1c_S,1 ⋯ H_S,N_Sc_S,N_S]</div>
-              
-              8. Apply Zero-Forcing equalization:<br>
-              <div class="equation">y_MT,ZF = [d_S,1, ⋯, d_S,N_S]^T + (G^H G)^(-1) G^H g_MT n</div>
-          </div>
-      </div>
+  <div style="text-align: center;">
+      <figure>
+          <img src="./NN_code/training_history.png" alt="Training History" style="max-width: 100%; height: auto;">
+          <figcaption>Figure 1: Training History for the Naive NN (Best Acc: 90.47%)</figcaption>
+      </figure>
+
+  
+      <figure>
+          <img src="./NN_code/training_history_advanced.png" alt="Advanced Training History" style="max-width: 100%; height: auto;">
+          <figcaption>Figure 2: Training History for the Advanced NN (Best Acc: 90.89%)</figcaption>
+      </figure>
+
+    <div style="text-align: center;">
+        <figure>
+            <img src="svm_regular_graphs.png" alt="Training History" style="max-width: 100%; height: auto;">
+            <figcaption>Figure 3: Training History for the normal SVM classifier (Best Acc: 91.18%)</figcaption>
+        </figure>
+
+
+        <figure>
+            <img src="svm_good_graphs.png" alt="Advanced Training History" style="max-width: 100%; height: auto;">
+            <figcaption>Figure 4: Training History for the Data-Driven Iterative SVM classifier (Best Acc: 94.01%)</figcaption>
+        </figure>
+  </div>
+
+  <h2 id="final"> Final Thoughts and Future Modifications</h2>
+
+  <p style="text-align: left">From the data, we see that the iterative data-driven SVM classifier with SMO had the best accuracy. Furthermore, this version would scale the best out of the four, as the iterative nature of this implementation allows for more candidate vectors to be added to the network (via a HPPP distribution) without the runtime scaling up exponentially. Our normal SVM implementation, since it uses the "one-to-one" approach, will increase dramatically in runtime with every new candidate vector that gets added.</p>
+
+  <p style="text-align: left">However, one of the main hurdles in our project was generating data that stayed true to the data used in the original paper. We went through many different types of datasets before we finally landed on a script that gave us the most accurate dataset (relative to the paper's dataset). It would've been very helpful if the paper provided the dataset they used for their own simulations.</p>
+  <p style = "text-align: left">In terms of future improvements, one idea we could implement is PCA, as this would help reduce the dimenionality problem (there are many features that need be juggled when running these models), and thereby reducing runtime while still keeping accuracy relatively high. </p>
+  <p style = "text-align: left">Furthermore, the paper had many more than just one mobile terminal, resulting in a more realistic network in terms of concurrent transmission. While we attempted to have multiple MT, this dramatically increased runtime, making our models unusable. If we were to get a hold on more sophisticated GPU's for faster computing, we could implement our models to house multiple MT's.</p>
+
+  
+
 </html>
