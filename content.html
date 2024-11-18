@@ -6,9 +6,11 @@
     <title>Project 1</title>
     <style>
         ul {
-            list-style-type: none;
-            padding: 0;
+            display: table; 
+            margin: 0 auto;
+            text-align: left;
         }
+
         li {
             margin: 10px 0;
         }
@@ -216,6 +218,29 @@
           </div>
       </div>
   </body>
+
+  <h2 id="SVM">Why not use a normal SVM?</h2>
+
+  <p> One of the main problems we face here is that small base stations are very <b> densely</b> deployed, and their placements are changing with every snapshot. </p>
+
+  <p>This leads us to create training samples that use multiple snapshots of SBSs with the same density, as it allows us to improve our variance in our samples.</p>
+
+  <p>Each training sample will contain the following, assuming we have $L$ propagation paths: </p>
+
+  <ul>
+    <li>Transmit power</li>
+    <li>Path loss</li>
+    <li>$2L$ <a href="https://en.wikipedia.org/wiki/Azimuth" target="_blank">azimuth angles</a>, one for the angle of arrival and one for the angle of departure for each path.</li>
+    <li>$2L$ real and imaginary parts for the <a href="https://en.wikipedia.org/wiki/Complex_gain" target="_blank">complex gain</a>.</li>
+  </ul>
+
+  <p>We normalize our samples in order to prevent any inconsistencies from differing range values. For instance, all angles will be between $0$ and $2\pi$, all power will be measured in dB, etc.</p>
+
+  <p>In total, every sample will be formatted as a vector of dimension $1 \times (4L + 2)$.</p>
+
+  <p>If we were to use a traditional SVM, then we'd end up using $N_C$ separate classifiers in order to find hyperplanes that can cleanly separate our data. However, our data can be <b>incredibly imbalanced</b> (such as some beams having much fewer samples than other beams), which can introduce heavy bias and inaccurate predictions.</p>
+
+  <p>Therefore, by using a <b>data-driven iterative SVM classifier</b>, we can better address the issue of imbalanced data and ensure better prediction accuracy for analog beam selection.</p> Specifically, we can perform resampling/reweighting with our samples deploy a more iterative process with each learning step to improve refinement.
 
   <h2 id="NN">Naive NN</h2>
 
