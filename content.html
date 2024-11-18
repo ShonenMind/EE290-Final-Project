@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Insert project title here">
-    <title>INSERT PROJECT TITLE, EE290 Final Project</title>
-
-    <!-- Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|IBM+Plex+Sans|Noto+Sans|Castoro" rel="stylesheet">
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/images/favicon.png">
-
-    <!-- MathJax -->
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [["$", "$"], ["\\(", "\\)"]],
-            },
-        };
-    </script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-    <!-- JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <script src="./static/js/bulma-carousel.min.js"></script>
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script defer src="./static/js/index.js"></script>
+    <title>Project 1</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        figure {
+            margin: 0;
+        }
+        .toc {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+        .toc a {
+            text-decoration: none;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .algorithm {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .algorithm-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .algorithm-block {
+            margin-left: 20px;
+        }
+        .comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .keyword {
+            font-weight: bold;
+        }
+        .equation {
+            margin: 10px 0;
+        }
+    </style>
 </head>
+<body>
     <h1>Table of Contents</h1>
     <ul class="toc">
         <li><a href="#overview">Overview of Project</a></li>
         <li><a href="#data-generation">Data Generation</a></li>
+        <li><a href="#NN">Naive NN</a></li>
     </ul>
 
     <h2 id="overview">Overview of Project</h2>
@@ -85,6 +108,41 @@
 
     <h4 style="text-decoration: underline;">For our project, we want to compare a naive Neural Network (NN) implementation, the paper's SMO algorithm, and our own Reinforced Learning (RL) approach.</h4>
 
+    <h2> Terminalogy </h2>
+    
+    <ul>
+      <li>
+          <strong>1. CodeBook :</strong> 
+          <p>
+            A <strong>codebook</strong> in beamforming is a collection of predefined 
+            <strong>candidate beamforming vectors</strong>. Each vector represents a specific configuration 
+            of phase shifts across the antennas of the SBS. These configurations determine the direction 
+            and focus of the transmitted signal.
+        </p>
+        <h2>Mathematical Definition</h2>
+        <p>The codebook <strong>C</strong> contains <strong>N<sub>C</sub></strong> candidate vectors:</p>
+        <div class="equation">
+            C = { c<sup>S</sup><sub>1</sub>, c<sup>S</sup><sub>2</sub>, ..., c<sup>S</sup><sub>N<sub>C</sub></sub> }
+        </div>
+        <p>where:</p>
+        <ul>
+            <li><strong>c<sup>S</sup><sub>i</sub></strong> ∈ ℂ<sup>N<sub>SBS</sub>×1</sup> for i = 1, 2, ..., N<sub>C</sub></li>
+            <li>
+                Each <strong>c<sup>S</sup><sub>i</sub></strong> is a normalized beamforming vector:
+                <div class="equation">
+                    c<sup>S</sup><sub>i</sub> = 1 / √N<sub>SBS</sub> * [ e<sup>jϕ<sub>1</sub></sup>, e<sup>jϕ<sub>2</sub></sup>, ..., e<sup>jϕ<sub>NSBS</sub></sup> ]<sup>T</sup>
+                </div>
+            </li>
+            <li><strong>ϕ<sub>k</sub></strong>: Phase shift for the k-th antenna.</li>
+            <li><strong>N<sub>SBS</sub></strong>: Number of antennas at the SBS.</li>
+        </ul>
+        <p>
+            Each vector in the codebook points the beam in a different direction, enabling the SBS to focus 
+            its transmission on specific targets (MTs).
+        </p>
+      </li>
+  </ul>
+
     <h2 id="data-generation">Data Generation</h2>
 
     <p>The first <i>(and typically most important)</i> step of any ML-based project is to collect lots of <a href="https://www.linkedin.com/pulse/what-good-quality-training-dataset-machine-learning-tagx" target="_blank">good</a> data.</p>
@@ -96,30 +154,31 @@
     </p>
 
     <p> </p>
+    <body>
       <div class="algorithm">
           <div class="algorithm-title">Algorithm 1: mmWave Channel Model</div>
           
           <div class="keyword">Constants:</div>
           <div class="algorithm-block">
-              \(\lambda_S\): SBS density in \(\mathbb{R}^2 \) plane<br>
-              $R$: Maximum communication radius<br>
-              $N_{SBS}$: Number of SBS antennas<br>
-              $N_{MT}$: Number of MT antennas<br>
-              $L$: Number of propagation paths<br>
-              $N_C$: Number of candidate vectors in codebook, \(N_C > 2\)<br>
-              $P_S$: Transmit power of SBS<br>
-              $D_{MT}$, $D_S$: Antenna spacing at MT and SBS, \( \lambda/2 \)<br>
-              $\sigma = \frac{2\pi}{\lambda}$: Wave number
+              λ_S: SBS density in R² plane<br>
+              R: Maximum communication radius<br>
+              N_SBS: Number of SBS antennas<br>
+              N_MT: Number of MT antennas<br>
+              L: Number of propagation paths<br>
+              N_C: Number of candidate vectors in codebook (N_C > 2)<br>
+              P_S: Transmit power of SBS<br>
+              D_MT, D_S: Antenna spacing at MT and SBS (λ/2)<br>
+              σ = 2π/λ: Wave number
           </div>
   
           <div class="keyword">Procedure:</div>
           <div class="algorithm-block">
               1. Calculate number of SBS:<br>
-              <div class="equation">$N_S = \lfloor \lambda_S \pi R^2 \rfloor$</div>
+              <div class="equation">N_S = ⌊λ_S π R²⌋</div>
               
-              2. Generate data streams $d_S,k \in \mathbb{C}$ for $k = 1, \dots ,N_S$<br>
+              2. Generate data streams d_S,k ∈ C for k = 1,...,N_S<br>
               
-              3. For each SBS $k$, select beam $c_S,k$ from codebook:<br>
+              3. For each SBS k, select beam c_S,k from codebook:<br>
               <div class="equation">s_SBS,k = c_S,k d_S,k, (c_S,k ∈ C^(N_SBS×1))</div>
               
               4. Generate channel matrices H_S,k:<br>
@@ -146,4 +205,11 @@
               <div class="equation">y_MT,ZF = [d_S,1, ⋯, d_S,N_S]^T + (G^H G)^(-1) G^H g_MT n</div>
           </div>
       </div>
+  </body>
+
+  <h2 id="NN">Naive NN</h2>
+
+  <p> Firstly, we implement a Naive NN to train the data.</p>
+
+
 </html>
