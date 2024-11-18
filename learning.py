@@ -1,36 +1,35 @@
-# Import necessary libraries
 import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import random
+import ast
 
-# Dataset
-data = {
-    'SBS_ID': [1, 1, 1, 2, 2, 2, 3, 3, 3],
-    'MT_Location_X': [120.5, 85.3, 95.7, 150.2, 165.8, 178.3, 90.5, 110.2, 130.8],
-    'MT_Location_Y': [45.2, 65.8, 78.9, 110.5, 95.2, 88.7, 150.3, 165.8, 145.2],
-    'SINR_dB': [15.8, 12.3, 11.5, 18.2, 16.5, 14.8, 13.2, 11.8, 10.5],
-    'Path_Loss_dB': [85.3, 90.2, 92.5, 82.1, 84.5, 86.8, 88.9, 91.2, 93.5],
-    'Angular_Position_Degrees': [45, 30, 60, 120, 150, 135, 90, 75, 60],
-    'Channel_Quality_Indicator': [8, 6, 5, 9, 8, 7, 6, 5, 4],
-    'Interference_Level_dBm': [-95.2, -92.5, -90.8, -98.5, -96.2, -94.5, -93.8, -91.5, -89.2],
-    'Selected_Beam_Index': [3, 2, 4, 1, 2, 3, 4, 3, 2],  # Label/Target variable
-    'Number_Active_MTs': [5, 5, 5, 4, 4, 4, 6, 6, 6],
-    'Distance_To_MT_Meters': [25.3, 35.8, 42.1, 20.5, 28.7, 35.2, 45.8, 52.3, 58.9]
-}
+# Step 1: Read and parse the CSV file
+array_columns = [
+    'd_S_real', 'd_S_imag', 'y_MT_ZF_real', 'y_MT_ZF_imag',
+    'g_MT_real', 'g_MT_imag', 'theta', 'phi_MT', 'phi_S',
+    'alpha_S_real', 'alpha_S_imag'
+]
 
-# DataFrame Converting
-df = pd.DataFrame(data)
+converters = {col: ast.literal_eval for col in array_columns}
 
-# Environment
+df = pd.read_csv('mmwave_data.csv', converters=converters)
+
+# Step 2: Define the environment
 class BeamSelectionEnv:
     def __init__(self, df):
         self.df = df.reset_index(drop=True)
         self.n_samples = len(df)
-        self.action_space = df['Selected_Beam_Index'].nunique()
-        self.reset()
+        self.current_index = 0
+
+        # Define action space (e.g., number of possible beams)
+        self.action_space = 8  # Adjust based on your system's possible actions
+
+        # Define state space size
+        sample_state = self.get_state(0)
+        self.state_size = len(sample_state)
 
     def reset(self):
         self.current_index = 0
@@ -38,19 +37,37 @@ class BeamSelectionEnv:
         return state
 
     def get_state(self, index):
-        # Exclude the 'Selected_Beam_Index' from the state
-        state = self.df.iloc[index].drop('Selected_Beam_Index').values.astype(np.float32)
+        row = self.df.iloc[index]
+
+        # Flatten array features into a single vector
+        state_features = []
+
+        for col in self.df.columns:
+            if isinstance(row[col], list):
+                # Flatten nested lists
+                flat_list = list(self.flatten(row[col]))
+                state_features.extend(flat_list)
+            else:
+                # Include scalar values directly
+                state_features.append(row[col])
+
+        state = np.array(state_features, dtype=np.float32)
         return state
 
-    def step(self, action):
-        # Get the correct action
-        correct_action = self.df.iloc[self.current_index]['Selected_Beam_Index'] - 1  # Adjust for zero-indexing
+    def flatten(self, l):
+        # Recursively flatten nested lists
+        for el in l:
+            if isinstance(el, list):
+                yield from self.flatten(el)
+            else:
+                yield el
 
-        # Define reward
-        if action == correct_action:
-            reward = 1.0
-        else:
-            reward = -1.0  # Penalize wrong actions
+    def step(self, action):
+        # Get the current row
+        row = self.df.iloc[self.current_index]
+
+        # Compute the reward based on action
+        reward = self.compute_reward(row, action)
 
         # Check if done
         done = self.current_index >= self.n_samples - 1
@@ -64,9 +81,15 @@ class BeamSelectionEnv:
 
         return next_state, reward, done, {}
 
-# Define the DQN Agent
+    def compute_reward(self, row, action):
+        # Placeholder: Replace with actual computation based on your system
+        # For example, calculate achievable rate or SNR based on action
+        reward = np.random.random()  # Random reward as a placeholder
+        return reward
+
+# Step 3: Define the agent
 class DQNAgent(nn.Module):
-    def __init__(self, state_size, action_size, hidden_size=64):
+    def __init__(self, state_size, action_size, hidden_size=128):
         super(DQNAgent, self).__init__()
         self.fc1 = nn.Linear(state_size, hidden_size)
         self.relu1 = nn.ReLU()
@@ -80,13 +103,13 @@ class DQNAgent(nn.Module):
         x = self.out(x)
         return x
 
-# Training the agent
-def train_agent(env, agent, episodes=1000, gamma=0.9, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, learning_rate=0.001):
+# Step 4: Training the agent
+def train_agent(env, agent, episodes=100, gamma=0.9, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, learning_rate=0.001):
     optimizer = optim.Adam(agent.parameters(), lr=learning_rate)
     criterion = nn.MSELoss()
 
     memory = []
-    batch_size = 16
+    batch_size = 64  # Adjusted for larger dataset
 
     for e in range(episodes):
         state = env.reset()
@@ -112,19 +135,36 @@ def train_agent(env, agent, episodes=1000, gamma=0.9, epsilon=1.0, epsilon_min=0
             # Store experience in memory
             memory.append((state, action, reward, next_state, done))
 
+            # Limit memory size to 10000
+            if len(memory) > 10000:
+                memory.pop(0)
+
             # If memory is large enough, start training
             if len(memory) > batch_size:
                 minibatch = random.sample(memory, batch_size)
-                for s, a, r, s_next, d in minibatch:
-                    target = r
-                    if not d:
-                        with torch.no_grad():
-                            target = r + gamma * torch.max(agent(s_next)).item()
-                    current_q = agent(s)[a]
-                    loss = criterion(current_q, torch.tensor(target))
-                    optimizer.zero_grad()
-                    loss.backward()
-                    optimizer.step()
+                states_mb = torch.stack([mb[0] for mb in minibatch])
+                actions_mb = torch.tensor([mb[1] for mb in minibatch], dtype=torch.int64)
+                rewards_mb = torch.tensor([mb[2] for mb in minibatch], dtype=torch.float32)
+                next_states_mb = torch.stack([mb[3] for mb in minibatch if mb[3] is not None])
+                dones_mb = torch.tensor([mb[4] for mb in minibatch], dtype=torch.bool)
+
+                # Compute target Q-values
+                with torch.no_grad():
+                    next_q_values = agent(next_states_mb)
+                    max_next_q_values = torch.max(next_q_values, dim=1)[0]
+                    target_q_values = rewards_mb
+                    target_q_values[~dones_mb] += gamma * max_next_q_values
+
+                # Compute current Q-values
+                current_q_values = agent(states_mb).gather(1, actions_mb.unsqueeze(1)).squeeze()
+
+                # Compute loss
+                loss = criterion(current_q_values, target_q_values)
+
+                # Optimize the model
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
             state = next_state
 
@@ -132,16 +172,14 @@ def train_agent(env, agent, episodes=1000, gamma=0.9, epsilon=1.0, epsilon_min=0
         if epsilon > epsilon_min:
             epsilon *= epsilon_decay
 
-        if (e+1) % 100 == 0:
-            print(f"Episode {e+1}/{episodes}, Total Reward: {total_reward}")
+        print(f"Episode {e+1}/{episodes}, Total Reward: {total_reward:.2f}, Epsilon: {epsilon:.2f}")
 
-# Main code
+# Step 5: Main function
 if __name__ == "__main__":
     env = BeamSelectionEnv(df)
-
-    state_size = len(env.get_state(0))
-    action_size = env.action_space  # Number of unique beam indices
+    state_size = env.state_size
+    action_size = env.action_space
 
     agent = DQNAgent(state_size, action_size)
 
-    train_agent(env, agent, episodes=1000)
+    train_agent(env, agent, episodes=100)
