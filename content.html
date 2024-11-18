@@ -139,6 +139,7 @@
         <li><a href="#SVM">Why not use a normal SVM?</a></li>
         <li><a href="#NN">Naive NN</a></li>
         <li><a href="#results">Training Results</a></li>
+        <li><a href="#final">Final Thoughts and Future Modifications</a></li>
     </ul>
 
     &nbsp;
@@ -560,6 +561,15 @@
             <figcaption>Figure 4: Training History for the Data-Driven Iterative SVM classifier (Best Acc: 94.01%)</figcaption>
         </figure>
   </div>
+
+  <h2 id="final"> Final Thoughts and Future Modifications</h2>
+
+  <p style="text-align: left">From the data, we see that the iterative data-driven SVM classifier with SMO had the best accuracy. Furthermore, this version would scale the best out of the four, as the iterative nature of this implementation allows for more candidate vectors to be added to the network (via a HPPP distribution) without the runtime scaling up exponentially. Our normal SVM implementation, since it uses the "one-to-one" approach, will increase dramatically in runtime with every new candidate vector that gets added.</p>
+
+  <p style="text-align: left">However, one of the main hurdles in our project was generating data that stayed true to the data used in the original paper. We went through many different types of datasets before we finally landed on a script that gave us the most accurate dataset (relative to the paper's dataset). It would've been very helpful if the paper provided the dataset they used for their own simulations.</p>
+  <p style = "text-align: left">In terms of future improvements, one idea we could implement is PCA, as this would help reduce the dimenionality problem (there are many features that need be juggled when running these models), and thereby reducing runtime while still keeping accuracy relatively high. </p>
+  <p style = "text-align: left">Furthermore, the paper had many more than just one mobile terminal, resulting in a more realistic network in terms of concurrent transmission. While we attempted to have multiple MT, this dramatically increased runtime, making our models unusable. If we were to get a hold on more sophisticated GPU's for faster computing, we could implement our models to house multiple MT's.</p>
+
   
 
 </html>
