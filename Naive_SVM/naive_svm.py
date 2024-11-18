@@ -51,7 +51,7 @@ class NaiveSVM:
 # Training script
 def main():
     # Load the dataset
-    dataset_path = 'mmwave_dataset.npy'
+    dataset_path = 'Naive_SVM/mmwave_dataset.npy'
     data = np.load(dataset_path, allow_pickle=True).item()
     X = data['features']
     y = data['labels']
@@ -62,7 +62,7 @@ def main():
     y_binary = np.where(y < unique_labels[mid_index], 1, -1)
 
     # Train the Naïve SVM
-    svm = NaiveSVM(learning_rate=0.001, lambda_param=0.01, num_iters=1000)
+    svm = NaiveSVM(learning_rate=0.001, lambda_param=0.01, num_iters=10000)
     print("Training Naïve SVM...")
     loss_history = svm.fit(X, y_binary)
     print("Training complete.")
