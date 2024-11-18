@@ -5,6 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1</title>
     <style>
+
+       .center-container {
+            text-align: center;
+        }
+
+        .github-button  {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: rgb(74, 114, 173);
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button.left {
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button.right {
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .github-button:hover {
+            background-color: rgb(161, 31, 31);
+        }
         ul {
             display: table; 
             margin: 0 auto;
@@ -63,6 +99,17 @@
             margin: 20px 0;
             font-weight: bold;
         }
+
+        h1 {
+            font-family: 'Great Vibes', cursive; /* Fancy cursive font */
+            font-size: 3em;
+            color: #333;
+        }
+        .byline {
+            font-size: 1.2em;
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
     </style>
 
     <!-- MathJax -->
@@ -82,14 +129,33 @@
 
 
 <body>
-    <div class="title">EE290 Final Project</div>
+    <div class="title">BEAMS</div>
+    <p class="byline">Beamforming and Enhanced Algorithms for MmWave Systems</p>
+    <p class="byline">EE290-010 Final Project by Aditya Tummala and Arjun Damerla, Professor Parekh</p>
     <h3 style="font-weight: normal; font-size: 1.5em;">Table of Contents</h3>
     <ul class="toc">
         <li><a href="#overview">Overview of Project</a></li>
         <li><a href="#data-generation">Data Generation</a></li>
         <li><a href="#SVM">Why not use a normal SVM?</a></li>
         <li><a href="#NN">Naive NN</a></li>
+        <li><a href="#results">Training Results</a></li>
     </ul>
+
+    &nbsp;
+
+    <div class="center-container">
+        <a href="https://github.com/ShonenMind/EE290-Final-Project" class="github-button left" target="_blank">
+            Click Here for GitHub
+        </a>
+    </div>
+
+    &nbsp;
+
+    <div class="center-container">
+        <a href="https://github.com/ShonenMind/EE290-Final-Project" class="github-button right" target="_blank">
+            Click Here for Slides
+        </a>
+    </div>
 
     <h4>Project Inspiration: <a href="https://ieeexplore.ieee.org/document/9024543" target="_blank">https://ieeexplore.ieee.org/document/9024543</a></h4>
 
@@ -468,8 +534,8 @@
     </li>
 </ul>
 
-  <h2>Training History</h2>
-  <p>Below are the training histories for different NN complexities:</p>
+  <h2 id="results"> Training Results</h2>
+  <p>Below are the training histories for the different NN complexities, the normal SVM classifier, and Data-Driven Iterative SVM classifier:</p>
   
   <div style="text-align: center;">
       <figure>
@@ -482,6 +548,18 @@
           <img src="./NN_code/training_history_advanced.png" alt="Advanced Training History" style="max-width: 100%; height: auto;">
           <figcaption>Figure 2: Training History for the Advanced NN (Best Acc: 90.89%)</figcaption>
       </figure>
+
+    <div style="text-align: center;">
+        <figure>
+            <img src="svm_regular_graphs.png" alt="Training History" style="max-width: 100%; height: auto;">
+            <figcaption>Figure 3: Training History for the normal SVM classifier (Best Acc: 91.18%)</figcaption>
+        </figure>
+
+
+        <figure>
+            <img src="svm_good_graphs.png" alt="Advanced Training History" style="max-width: 100%; height: auto;">
+            <figcaption>Figure 4: Training History for the Data-Driven Iterative SVM classifier (Best Acc: 94.01%)</figcaption>
+        </figure>
   </div>
   
 

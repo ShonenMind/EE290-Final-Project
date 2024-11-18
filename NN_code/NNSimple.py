@@ -29,10 +29,10 @@ class MmWaveNN(nn.Module):
         self.network = nn.Sequential(
             nn.Linear(input_size, hidden_size),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.5),
             nn.Linear(hidden_size, hidden_size//2),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.4),
             nn.Linear(hidden_size//2, num_classes)
         )
         
@@ -102,8 +102,8 @@ def plot_training_history(train_losses, train_acc, val_losses, val_acc):
     plt.close()
 
 def main():
-    X = np.load('mmwave_features.npy')
-    y = np.load('mmwave_labels.npy')
+    X = np.load('NN_code/mmwave_features.npy')
+    y = np.load('NN_code/mmwave_labels.npy')
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -123,7 +123,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
     
-    num_epochs = 50
+    num_epochs = 100
     train_losses = []
     train_accuracies = []
     val_losses = []

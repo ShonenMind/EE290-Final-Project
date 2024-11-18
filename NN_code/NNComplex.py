@@ -209,8 +209,8 @@ def plot_training_history(train_losses, train_acc, val_losses, val_acc, save_pat
 
 def main():
     # Load and preprocess data
-    X = np.load('mmwave_features.npy')
-    y = np.load('mmwave_labels.npy')
+    X = np.load('NN_code/mmwave_features.npy')
+    y = np.load('NN_code/mmwave_labels.npy')
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -241,7 +241,7 @@ def main():
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5, verbose=True)
     
     # Training loop
-    num_epochs = 100
+    num_epochs = 5
     train_losses = []
     train_accuracies = []
     val_losses = []
