@@ -54,6 +54,17 @@
             margin: 10px 0;
         }
     </style>
+
+    <!-- MathJax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+            },
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
 </head>
 <body>
     <h1>Table of Contents</h1>
@@ -108,7 +119,7 @@
 
     <h4 style="text-decoration: underline;">For our project, we want to compare a naive Neural Network (NN) implementation, the paper's SMO algorithm, and our own Reinforced Learning (RL) approach.</h4>
 
-    <h2> Terminalogy </h2>
+    <h2> Terminology </h2>
     
     <ul>
       <li>
@@ -120,21 +131,20 @@
             and focus of the transmitted signal.
         </p>
         <h2>Mathematical Definition</h2>
-        <p>The codebook <strong>C</strong> contains <strong>N<sub>C</sub></strong> candidate vectors:</p>
-        <div class="equation">
-            C = { c<sup>S</sup><sub>1</sub>, c<sup>S</sup><sub>2</sub>, ..., c<sup>S</sup><sub>N<sub>C</sub></sub> }
-        </div>
-        <p>where:</p>
+        <p>The codebook $C$ contains $N_C$ candidate vectors,
+        \(C = \{ c_{1}^S, c_{2}^S, \dots , c_{N_C}^S \} \), where <p style="text-align: center";>
+            \(c_i^S \in \mathbb{C}^{N_{SBS} \times 1} \text{ for } i = 1, 2, \dots , N_C\)
+
+        </p>
         <ul>
-            <li><strong>c<sup>S</sup><sub>i</sub></strong> ∈ ℂ<sup>N<sub>SBS</sub>×1</sup> for i = 1, 2, ..., N<sub>C</sub></li>
             <li>
-                Each <strong>c<sup>S</sup><sub>i</sub></strong> is a normalized beamforming vector:
-                <div class="equation">
-                    c<sup>S</sup><sub>i</sub> = 1 / √N<sub>SBS</sub> * [ e<sup>jϕ<sub>1</sub></sup>, e<sup>jϕ<sub>2</sub></sup>, ..., e<sup>jϕ<sub>NSBS</sub></sup> ]<sup>T</sup>
-                </div>
+                Each $c_i^{S}$ is a normalized beamforming vector:
+                <p style="text-align: center";>
+                    $c_i^S = \frac{1}{\sqrt{N_{SBS}}} \cdot [e^{j\phi_1}, e^{j\phi_2}, \dots , e^{j\phi_{N_{SBS}}}]^\top$
+                </p>
             </li>
-            <li><strong>ϕ<sub>k</sub></strong>: Phase shift for the k-th antenna.</li>
-            <li><strong>N<sub>SBS</sub></strong>: Number of antennas at the SBS.</li>
+            $\phi_k$: Phase shift for the k-th antenna.</li> <br>
+            $N_{SBS}$: Number of antennas at the SBS.</li>
         </ul>
         <p>
             Each vector in the codebook points the beam in a different direction, enabling the SBS to focus 
