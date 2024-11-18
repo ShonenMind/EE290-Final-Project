@@ -148,7 +148,7 @@
             of phase shifts across the antennas of the SBS. These configurations determine the direction 
             and focus of the transmitted signal.
         </p>
-        <h2>Mathematical Definition</h2>
+        <h4>Mathematical Definition</h4>
         <p>The codebook $C$ contains $N_C$ candidate vectors,
         \(C = \{ c_{1}^S, c_{2}^S, \dots , c_{N_C}^S \} \), where <p style="text-align: center";>
             \(c_i^S \in \mathbb{C}^{N_{SBS} \times 1} \text{ for } i = 1, 2, \dots , N_C\)
@@ -169,6 +169,42 @@
             its transmission on specific targets (MTs).
         </p>
       </li>
+    
+        <li>
+            <strong>2. Average Sum Rate of Concurrent Transmissions: </strong>
+    
+        <div class="content">
+            <p>The MT can be simultaneously served by multiple mmWave SBSs with the SBS density λ<sub>S</sub>. Based on the statistical property of HPPP, the probability of SBS number in the <i>R</i> radius circular area satisfies:</p>
+    
+            <div class="equation">
+                \[ \mathrm{Pr}_{\mathrm{S}}(N_{\mathrm{S}}=\tau)=\frac{(\lambda_{\mathrm{S}}\pi R^{2})^{\tau}}{\tau!}e^{-\lambda_{\mathrm{S}}\pi R^{2}} (\tau=0,1,\ \ldots). \]
+            </div>
+    
+            <p>From the previous equation, the received noise power of MT satisfies:</p>
+    
+            <div class="equation">
+                \[ \mathrm{E}[(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}\mathrm{G}^{\mathrm{H}}g_{\mathrm{M}\mathrm{T}}n]=\delta^{2}N_{\mathrm{M}\mathrm{T}}(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1} \]
+            </div>
+    
+            <p>According to the expression of G, we can get:</p>
+    
+            <div class="equation">
+                \[ (\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}=\frac{1}{N_{\mathrm{M}^{\mathrm{r}}}}\begin{bmatrix}
+                {\left\|\mathrm{H}_{\mathrm{S}, 1} c_{\mathrm{S}, 1}\right\|^{2}}& {\cdots}& {0}\\
+                {\vdots}& {\ddots}& {\vdots}\\
+                {0}& {\cdots}& {\| \mathrm{H}_{\mathrm{S},N\mathrm{s}}c_{\mathrm{S},N_{\mathrm{S}}}\|^{2}}
+                \end{bmatrix}, \]
+            </div>
+    
+            <p>Consider the concurrent transmission of SBS, the ASR of MT is:</p>
+    
+            <div class="equation">
+                \[ R_{\mathrm{M}\mathrm{T}} = \lim_{\tau \rightarrow \infty} \sum_{k=1}^{\tau}\left[\frac{\left(\lambda_{\mathrm{S}} \pi R^{2}\right)^{\tau}}{\tau !} e^{-\lambda_{\mathrm{S}} \pi R^{2}}\right] \log_{2}\left(1+\frac{P_{\mathrm{S}, k}\left\|\mathrm{H}_{\mathrm{S}, k} c_{\mathrm{S}, k}\right\|^{2}}{N_{\mathrm{SBS}} \sigma^{2}}\right) \]
+            </div>
+    
+            <p>where SNR<sub>S,k</sub> = P<sub>S,k</sub>‖H<sub>S,k</sub>c<sub>S,k</sub>‖²/(N<sub>SBS</sub>σ²) is the MT signal to noise (SNR) of the concurrent transmission from all SBS.</p>
+        </div>
+    <p> In other words, given two SBSs and one MT, if we were to <strong>independently</strong> choose the beam that maximizes the SNR value, then we would maximize the average sum rate of concurrent transmissions.</p></li>
   </ul>
 
     <h2 id="data-generation">Data Generation</h2>
@@ -297,45 +333,9 @@
     </body>
 
 
-    <body>
-        <h2>Average Sum Rate of Concurrent Transmissions</h2>
-    
-        <div class="content">
-            <p>The MT can be simultaneously served by multiple mmWave SBSs with the SBS density λ<sub>S</sub>. Based on the statistical property of HPPP, the probability of SBS number in the <i>R</i> radius circular area satisfies:</p>
-    
-            <div class="equation">
-                \[ \mathrm{Pr}_{\mathrm{S}}(N_{\mathrm{S}}=\tau)=\frac{(\lambda_{\mathrm{S}}\pi R^{2})^{\tau}}{\tau!}e^{-\lambda_{\mathrm{S}}\pi R^{2}} (\tau=0,1,\ \ldots). \]
-            </div>
-    
-            <p>From (7), the received noise power of MT satisfies:</p>
-    
-            <div class="equation">
-                \[ \mathrm{E}[(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}\mathrm{G}^{\mathrm{H}}g_{\mathrm{M}\mathrm{T}}n]=\delta^{2}N_{\mathrm{M}\mathrm{T}}(\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1} \]
-            </div>
-    
-            <p>According to the expression of G, we can get:</p>
-    
-            <div class="equation">
-                \[ (\mathrm{G}^{\mathrm{H}}\mathrm{G})^{-1}=\frac{1}{N_{\mathrm{M}^{\mathrm{r}}}}\begin{bmatrix}
-                {\left\|\mathrm{H}_{\mathrm{S}, 1} c_{\mathrm{S}, 1}\right\|^{2}}& {\cdots}& {0}\\
-                {\vdots}& {\ddots}& {\vdots}\\
-                {0}& {\cdots}& {\| \mathrm{H}_{\mathrm{S},N\mathrm{s}}c_{\mathrm{S},N_{\mathrm{S}}}\|^{2}}
-                \end{bmatrix}, \]
-            </div>
-    
-            <p>Consider the concurrent transmission of SBS, the ASR of MT is:</p>
-    
-            <div class="equation">
-                \[ R_{\mathrm{M}\mathrm{T}} = \lim_{\tau \rightarrow \infty} \sum_{k=1}^{\tau}\left[\frac{\left(\lambda_{\mathrm{S}} \pi R^{2}\right)^{\tau}}{\tau !} e^{-\lambda_{\mathrm{S}} \pi R^{2}}\right] \log_{2}\left(1+\frac{P_{\mathrm{S}, k}\left\|\mathrm{H}_{\mathrm{S}, k} c_{\mathrm{S}, k}\right\|^{2}}{N_{\mathrm{SBS}} \sigma^{2}}\right) \]
-            </div>
-    
-            <p>where SNR<sub>S,k</sub> = P<sub>S,k</sub>‖H<sub>S,k</sub>c<sub>S,k</sub>‖²/(N<sub>SBS</sub>σ²) is the MT signal to noise (SNR) of the concurrent transmission from all SBS.</p>
-        </div>
-    <p> In other words, given two SBSs and one MT, if we were to independently choose the beam that maximizes the SNR value, then we would maximize the average sum rate of concurrent transmissions.</p>
-    </body>
 
 
-  <h2 id="SVM">Why not use a normal SVM?</h2>
+  <h2 id="SVM">Why use SMOs?</h2>
 
   <p> One of the main problems we face here is that small base stations are very <b> densely</b> deployed, and their placements are changing with every snapshot. </p>
 
